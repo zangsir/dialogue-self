@@ -11,6 +11,12 @@ class Tree:
         return str(self.cargo)
 
 
+def print_tree_indented(tree, level=0):
+    if tree == None: return
+    print_tree_indented(tree.right, level+1)
+    print('  ' * level + str(tree.cargo))
+    print_tree_indented(tree.left, level+1)
+
 def yes(ques):
     ans = raw_input(ques).lower()
     return ans[0] == 'y'
@@ -22,11 +28,17 @@ def animal():
     # loop until the user quits
     while True:
         print
-        if not yes("Are you thinking of an animal? "): break
+
+        if not yes("Are you thinking of an animal? "):
+            print 'bye!see you next time.'
+            break
 
         # walk the tree
+        #basically in the first round, the tree is at the root, so root is updated to be the first question that you add, and it keeps it that way. so in later rounds the root will remain the first question you added and it keeps expanding the sub left trees.
         tree = root
-        while tree.left != None:
+        #if you want to see the tree structure at this point, uncomment the next line and it will print tree structure sideways (turn your head 90 degrees left to visualize the tree in upright position)
+        #print_tree_indented(tree)
+        while tree.left is not None:
             prompt = tree.cargo + "? "
             if yes(prompt):
                 tree = tree.right
@@ -55,6 +67,7 @@ def animal():
         else:
             tree.left = Tree(animal)
             tree.right = Tree(guess)
+        #print_tree_indented(tree)
 
 def main():
 	animal()
